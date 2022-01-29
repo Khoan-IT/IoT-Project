@@ -1,3 +1,3 @@
 # IoT-Project
-## un
+## Run
 python main.py
