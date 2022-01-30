@@ -21,10 +21,7 @@ def get_location():
     browser.find_element(By.ID, 'pWhrzc-mylocation').click()
 
     #Lấy tạo độ kinh tuyến và vĩ tuyến
-    # latitude = browser.find_element(By.ID, 'latitude').text
-    # longitude = browser.find_element(By.ID, 'longitude').text
-
-    # return latitude, longitude
+    
     url = browser.current_url
     latitude = float(url.split(',')[0].split('@')[-1])
     longitude = float(url.split(',')[1])
