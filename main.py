@@ -8,6 +8,26 @@ BROKER_ADDRESS = "demo.thingsboard.io"
 PORT = 1883
 THINGS_BOARD_ACCESS_TOKEN = "Wxu3qrXQvvzMtRez3rg1"
 
+def processData(data):
+    data = data.replace("!", "")
+    data = data.replace("#", "")
+    splitData = data.split(":")
+    print(splitData)
+    
+def readSerial():
+    bytesToRead = ser.inWaiting()
+    if (bytesToRead > 0):
+        global mess
+        mess = mess + ser.read(bytesToRead).decode("UTF-8")
+        while ("#" in mess) and ("!" in mess):
+            start = mess.find("!")
+            end = mess.find("#")
+            processData(mess[start:end + 1])
+            if (end == len(mess)):
+                mess = ""
+            else:
+                mess = mess[end+1:]
+
 
 def subscribed(client, userdata, mid, granted_qos):
     print("Subscribed...")
@@ -18,9 +38,9 @@ def recv_message(client, userdata, message):
     temp_data = {'value': True}
     try:
         jsonobj = json.loads(message.payload)
-        if jsonobj['method'] == "setValue":
-            temp_data['value'] = jsonobj['params']
-            client.publish('v1/devices/me/attributes', json.dumps(temp_data), 1)
+        # if jsonobj['method'] == "setValue":
+        temp_data['value'] = jsonobj['params']
+        client.publish('v1/devices/me/attributes', json.dumps(temp_data), 1)
     except:
         pass
 
