@@ -2,7 +2,7 @@ import paho.mqtt.client as mqttclient
 import time
 import json
 
-from location import get_location
+# from location import get_location
 
 BROKER_ADDRESS = "demo.thingsboard.io"
 PORT = 1883
@@ -73,4 +73,4 @@ while True:
     temp += 1
     humi += 1
     client.publish('v1/devices/me/telemetry', json.dumps(collect_data), 1)
-    latitude, longitude = get_location()
+    # latitude, longitude = get_location()
