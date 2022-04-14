@@ -45,9 +45,24 @@ namespace Dashboard
         }
 
         public void setMQTT(){
-            this.brokerAddress = broker_input.text;
-            this.mqttUserName = username_input.text;
-            this.mqttPassword = password_input.text;
+            if (broker_input.text == ""){
+                this.brokerAddress = "mqttserver.tk";
+            }else{
+                this.brokerAddress = broker_input.text;
+            }
+
+            if(username_input.text == ""){
+                this.mqttUserName = "bkiot";
+            }else{
+                this.mqttUserName = username_input.text;
+            }
+
+            if(password_input.text == ""){
+                this.mqttPassword = "12345678";
+            }else{
+                this.mqttPassword = password_input.text;
+            }
+            
             this.Connect();
         }
  
