@@ -2,8 +2,6 @@ import paho.mqtt.client as mqttclient
 import time
 import json
 
-# from location import get_location
-
 BROKER_ADDRESS = "demo.thingsboard.io"
 PORT = 1883
 THINGS_BOARD_ACCESS_TOKEN = "Wxu3qrXQvvzMtRez3rg1"

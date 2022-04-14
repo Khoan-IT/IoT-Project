@@ -13,19 +13,19 @@ browser = webdriver.Chrome(service=service, options=option)
 
 def get_location():
 
-    #Truy cập trang web https://www.google.com/maps để lấy tạo độ hiện tại
+    #Truy cập trang web my-location.org để lấy tạo độ hiện tại
     browser.get('https://www.google.com/maps')
 
-    #Chờ 5s để load trang googlemap
+    #Chờ 10s để tìm vị trí
     time.sleep(5)
-    #Tìm đến button mylocation và thực hiện click
     browser.find_element(By.ID, 'pWhrzc-mylocation').click()
-    time.sleep(5)
 
-    #Lấy url hiện tại để lấy kinh độ và vĩ độ.
+    #Lấy tạo độ kinh tuyến và vĩ tuyến
+    
     url = browser.current_url
     latitude = float(url.split(',')[0].split('@')[-1])
     longitude = float(url.split(',')[1])
     return latitude, longitude
 
+print(get_location())
 
