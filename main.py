@@ -71,4 +71,4 @@ while True:
     temp += 1
     humi += 1
     client.publish('v1/devices/me/telemetry', json.dumps(collect_data), 1)
-    # latitude, longitude = get_location()
+    time.sleep(10)
