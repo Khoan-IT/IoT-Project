@@ -1,7 +1,9 @@
 # IoT-Project
 
-## Để gửi dữ liệu lên server. Ta Run file Sensor.py bên branch main.
+## Run device
+Run file Sensor.py on branch main
 ```bash
 python Sensor.py
 ```
-## Run app trên MacOs sử dụng file Dashboard.app
+## Run app
+Run Dashboard.app (App run on MacOs)
