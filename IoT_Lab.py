@@ -4,6 +4,19 @@ import time
 import json
 import serial.tools.list_ports
 
+
+
+
+def get_port():
+    ports = list(serial.tools.list_ports.comports())
+    for p in ports:
+        if 'BBC micro:bit' in str(p):
+            return str(p).split('-')[0].strip()
+    return ''
+
+# bcc_port = get_port()
+print(get_port())
+
 BROKER_ADDRESS = "demo.thingsboard.io"
 PORT = 1883
 mess = ""
@@ -11,9 +24,9 @@ mess = ""
 #TODO: Add your token and your comport
 #Please check the comport in the device manager
 THINGS_BOARD_ACCESS_TOKEN = "tTcr6kT44CNqxmmCYyfb"
-bbc_port = "COM9"
-if len(bbc_port) > 0:
-    ser = serial.Serial(port=bbc_port, baudrate=115200)
+
+# if len(bbc_port) > 0:
+ser = serial.Serial(port=get_port(), baudrate=115200)
 
 light = 0
 temp = 0
@@ -24,14 +37,15 @@ def processData(data):
     data = data.replace("#", "")
     splitData = data.split(":")
     print(splitData)
-    if (splitData[1]=='LIGHT'):
-        light = int(splitData[2])
-        collect_data = {'temperature': temp, 'light' : light}
-        client.publish('v1/devices/me/telemetry', json.dumps(collect_data), 1)
-    else:
-        temp = int(splitData[2])
-        collect_data = {'temperature': temp, 'light' : light}
-        client.publish('v1/devices/me/telemetry', json.dumps(collect_data), 1)
+    # TODO: Add your source code to publish data to the server
+    # Example demo hercules: !1:TEMP:35## !2:LIGHT:33##
+    if splitData[1] == "TEMP":
+        splitData[1] = "temperature"
+    elif splitData[1] == "LIGHT":
+        splitData[1] = "light"
+    collect_data = {splitData[1]: int(splitData[2])}
+    # print(collect_data)
+    client.publish("v1/devices/me/telemetry", json.dumps(collect_data), 1)
     #TODO: Add your source code to publish data to the server
 
 def readSerial():
@@ -76,7 +90,7 @@ def recv_message(client, userdata, message):
     except:
         pass
 
-    if len(bbc_port) > 0:
+    if len(get_port()) > 0:
         ser.write((str(cmd) + "#").encode())
 
 def connected(client, usedata, flags, rc):
@@ -100,7 +114,7 @@ client.on_message = recv_message
 
 while True:
 
-    if len(bbc_port) >  0:
+    if len(get_port()) >  0:
         readSerial()
 
     time.sleep(1)
